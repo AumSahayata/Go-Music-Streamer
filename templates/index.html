@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Go Music Streamer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background-color: #f4f4f4;
+    }
+    h1 {
+      color: #333;
+    }
+    input {
+      padding: 0.5rem;
+      font-size: 1rem;
+      width: 300px;
+      margin-bottom: 1rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+    }
+    th {
+      background-color: #eee;
+      padding: 0.5rem;
+      text-align: left;
+      cursor: pointer;
+    }
+    td {
+      padding: 0.5rem;
+      border-bottom: 1px solid #ccc;
+    }
+    audio {
+      width: 100%;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎵 Go Music Streamer</h1>
+
+  <input id="searchInput" placeholder="Search songs..." />
+
+  <table id="resultsTable">
+    <thead>
+      <tr>
+        <th data-sort="title">Title ⬍</th>
+        <th data-sort="artist">Artist ⬍</th>
+        <th>Play</th>
+      </tr>
+    </thead>
+    <tbody id="resultsBody"></tbody>
+  </table>
+
+  <audio id="audioPlayer" controls></audio>
+
+  <script>
+    const input = document.getElementById('searchInput');
+    const tbody = document.getElementById('resultsBody');
+    const audio = document.getElementById('audioPlayer');
+    let songs = [];
+    let currentSort = { key: null, direction: 1 };
+
+    async function fetchSongs(query) {
+      const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+      songs = await res.json();
+      renderSongs();
+    }
+
+    function renderSongs() {
+      tbody.innerHTML = '';
+      songs.forEach(song => {
+        const row = `<tr>
+          <td>${song.title}</td>
+          <td>${song.artist}</td>
+          <td><button onclick="playSong('${song.filename}')">▶</button></td>
+        </tr>`;
+        tbody.insertAdjacentHTML('beforeend', row);
+      });
+    }
+
+    function playSong(filename) {
+      audio.src = `/stream/${filename}`;
+      audio.play();
+    }
+
+    input.addEventListener('input', () => {
+      fetchSongs(input.value.trim());
+    });
+
+    document.querySelectorAll('th[data-sort]').forEach(th => {
+      th.addEventListener('click', () => {
+        const key = th.dataset.sort;
+        const dir = currentSort.key === key ? -currentSort.direction : 1;
+        currentSort = { key, direction: dir };
+
+        songs.sort((a, b) => {
+          const valA = a[key].toLowerCase();
+          const valB = b[key].toLowerCase();
+          return valA < valB ? -dir : valA > valB ? dir : 0;
+        });
+
+        renderSongs();
+      });
+    });
+
+    // Initial load
+    fetchSongs('');
+  </script>
+
+</body>
+</html>
