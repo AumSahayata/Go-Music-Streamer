@@ -39,6 +39,10 @@ It allows users to stream and upload music of their choice.
 
 ---
 
+Sample music from [Pixabay](https://pixabay.com/music).
+
+---
+
 ## 🙌 Contributing
 
 Pull requests are welcome!  
