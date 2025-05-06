@@ -2,7 +2,7 @@
 
 A simple and efficient **Music Streaming service** built with **Go**.
 
-It allows users to stream and upload of their choice.
+It allows users to stream and upload music of their choice.
 
 ---
 
@@ -36,6 +36,10 @@ It allows users to stream and upload of their choice.
 3. **Access the app**:
 
     Open your browser at [http://localhost:8080](http://localhost:8080)
+
+---
+
+Sample music from [Pixabay](https://pixabay.com/music).
 
 ---
 
