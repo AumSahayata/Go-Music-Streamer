@@ -2,7 +2,7 @@
 
 A simple and efficient **Music Streaming service** built with **Go**.
 
-It allows users to stream and upload of their choice.
+It allows users to stream and upload music of their choice.
 
 ---
 
