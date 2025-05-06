@@ -19,6 +19,8 @@ _obj
 _test
 _testmain.go
 
+*.db
+
 /VERSION.cache
 /bin/
 /build.out
@@ -45,8 +47,6 @@ _testmain.go
 /test/pass.out
 /test/run.out
 /test/times.out
-
-songs.db
 # This file includes artifacts of Go build that should not be checked in.
 # For files created by specific development environment (e.g. editor),
 # use alternative ways to exclude files from git.
